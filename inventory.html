@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Uniform Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        form {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            display: inline-block;
+            text-align: left;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            flex: 1;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .form-group select, .form-group input {
+            flex: 2;
+            padding: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h2>School Uniform Inventory</h2>
+    
+    <h3>Boys' Uniforms</h3>
+    <table id="boysInventory">
+        <tr>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Quantity</th>
+        </tr>
+    </table>
+    
+    <h3>Girls' Uniforms</h3>
+    <table id="girlsInventory">
+        <tr>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Quantity</th>
+        </tr>
+    </table>
+    
+    <h3>Nursing Uniforms - Male</h3>
+    <table id="nursingMaleInventory">
+        <tr>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Quantity</th>
+        </tr>
+    </table>
+    
+    <h3>Nursing Uniforms - Female</h3>
+    <table id="nursingFemaleInventory">
+        <tr>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Quantity</th>
+        </tr>
+    </table>
+    
+    <form id="addForm">
+        <h3>Add New Item</h3>
+        <div class="form-group">
+            <label>Category:</label>
+            <select id="category" onchange="validateForm()">
+                <option value="">Select Category</option>
+                <option value="boysInventory">Boys</option>
+                <option value="girlsInventory">Girls</option>
+                <option value="nursingMaleInventory">Nursing - Male</option>
+                <option value="nursingFemaleInventory">Nursing - Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Item Name:</label>
+            <input type="text" id="itemName" oninput="validateForm()" required>
+        </div>
+        <div class="form-group">
+            <label>Size:</label>
+            <select id="itemSize" onchange="validateForm()">
+                <option value="">Select Size</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+                <option value="XL">XL</option>
+                <option value="2XL">2XL</option>
+                <option value="3XL">3XL</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Quantity:</label>
+            <input type="number" id="itemQuantity" oninput="validateForm()" required>
+        </div>
+        <button type="button" id="addItemButton" onclick="addItem()" disabled>Add Item</button>
+        <button type="button" onclick="clearForm()">Clear</button>
+    </form>
+    
+    <script>
+        function validateForm() {
+            let category = document.getElementById("category").value;
+            let itemName = document.getElementById("itemName").value.trim();
+            let itemSize = document.getElementById("itemSize").value;
+            let itemQuantity = document.getElementById("itemQuantity").value.trim();
+            let addButton = document.getElementById("addItemButton");
+            
+            if (category && itemName && itemSize && itemQuantity) {
+                addButton.disabled = false;
+            } else {
+                addButton.disabled = true;
+            }
+        }
+        
+        function addItem() {
+            let category = document.getElementById("category").value;
+            let table = document.getElementById(category);
+            let row = table.insertRow();
+            let itemCell = row.insertCell(0);
+            let sizeCell = row.insertCell(1);
+            let quantityCell = row.insertCell(2);
+
+            itemCell.textContent = document.getElementById("itemName").value;
+            sizeCell.textContent = document.getElementById("itemSize").value;
+            quantityCell.textContent = document.getElementById("itemQuantity").value;
+            
+            clearForm();
+        }
+        
+        function clearForm() {
+            document.getElementById("category").value = "";
+            document.getElementById("itemName").value = "";
+            document.getElementById("itemSize").value = "";
+            document.getElementById("itemQuantity").value = "";
+            document.getElementById("addItemButton").disabled = true;
+        }
+    </script>
+</body>
+</html>
